@@ -167,8 +167,12 @@ function MainLayout() {
                       SpotifyIcon,
                       "https://open.spotify.com/show/6LoF8LThlc7iEH7yY1xzR5",
                     ],
-                    ["Apple Podcast", ApplePodcastIcon, "/"],
-                    ["Overcast", OvercastIcon, "/"],
+                    [
+                      "Apple Podcast",
+                      ApplePodcastIcon,
+                      "https://podcasts.apple.com/us/podcast/c1x-a-disc-golf-podcast/id1791326511",
+                    ],
+                    // ["Overcast", OvercastIcon, "/"],
                     ["RSS Feed", RSSIcon, "https://feed.c1xpod.com/rss/"],
                   ] as const
                 ).map(([label, Icon, href]) => (
