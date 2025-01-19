@@ -7,5 +7,5 @@ export function getEpisodeSlug(episode: Episode) {
 }
 
 export function parseEpisodeSlug(slug: string) {
-  return slug.split("-").pop() ?? slug;
+  return slug.slice(-11);
 }
