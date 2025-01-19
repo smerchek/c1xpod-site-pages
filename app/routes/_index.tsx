@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { Episode, getEpisodes } from "~/.server/api";
+import { getEpisodeSlug } from "~/util";
 import { Container } from "~/components/Container";
 import { EpisodePlayButton } from "~/components/EpisodePlayButton";
 import { FormattedDate } from "~/components/FormattedDate";
@@ -38,7 +39,9 @@ function EpisodeEntry({ episode }: { episode: Episode }) {
             id={`episode-${episode.id}-title`}
             className="mt-2 text-lg font-bold text-slate-900"
           >
-            <Link to={`/episodes/${episode.id}`}>{episode.title}</Link>
+            <Link to={`/episodes/${getEpisodeSlug(episode)}`}>
+              {episode.title}
+            </Link>
           </h2>
           <FormattedDate
             date={date}
@@ -71,7 +74,7 @@ function EpisodeEntry({ episode }: { episode: Episode }) {
               /
             </span>
             <Link
-              to={`/episodes/${episode.id}`}
+              to={`/episodes/${getEpisodeSlug(episode)}`}
               className="flex items-center text-sm font-bold leading-6 text-slate-500 hover:text-slate-700 active:text-slate-900"
               aria-label={`Show notes for episode ${episode.title}`}
             >

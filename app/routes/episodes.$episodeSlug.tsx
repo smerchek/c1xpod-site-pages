@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import {
   Link,
   MetaFunction,
@@ -6,6 +6,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { getEpisode } from "~/.server/api";
+import { getEpisodeSlug, parseEpisodeSlug } from "~/util";
 import { Container } from "~/components/Container";
 import { EpisodePlayButton } from "~/components/EpisodePlayButton";
 import { FormattedDate } from "~/components/FormattedDate";
@@ -68,14 +69,21 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  if (!params.episodeId) {
+  if (!params.episodeSlug) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const episode = await getEpisode(params.episodeId);
+  const episodeId = parseEpisodeSlug(params.episodeSlug);
+
+  const episode = await getEpisode(episodeId);
 
   if (!episode) {
     throw new Response("Not Found", { status: 404 });
+  }
+
+  const slug = getEpisodeSlug(episode);
+  if (params.episodeSlug !== slug) {
+    return redirect(`/episodes/${slug}`);
   }
 
   return { episode };

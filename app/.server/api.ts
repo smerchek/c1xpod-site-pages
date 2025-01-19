@@ -90,6 +90,10 @@ export async function getEpisodes(): Promise<Episode[]> {
 }
 
 export async function getEpisode(id: string): Promise<Episode | null> {
-  const episodes = await getEpisodes();
-  return episodes.find((episode) => episode.id === id) ?? null;
+  const response = await fetch(`https://feed.c1xpod.com/i/${id}/json`);
+  const data = await response.json();
+
+  const feedItems = feedSchema.parse(data).items;
+
+  return feedItems[0] ?? null;
 }
