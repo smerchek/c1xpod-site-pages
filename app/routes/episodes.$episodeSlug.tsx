@@ -19,6 +19,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   }
 
   const description = data.episode.content_text.split("\n\n")[0];
+  const youtubeId = data.episode._microfeed["youtube:url"]?.split("v=")[1];
 
   return [
     {
@@ -53,16 +54,61 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
       property: "og:description",
       content: description,
     },
+    ...(youtubeId
+      ? [
+          {
+            property: "og:image",
+            content: `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`,
+          },
+          {
+            property: "og:image:width",
+            content: "1280",
+          },
+          {
+            property: "og:image:height",
+            content: "720",
+          },
+          {
+            property: "og:video",
+            content: `https://www.youtube.com/watch?v=${youtubeId}`,
+          },
+          {
+            property: "og:video:secure_url",
+            content: `https://www.youtube.com/watch?v=${youtubeId}`,
+          },
+          {
+            property: "og:video:type",
+            content: "text/html",
+          },
+          {
+            property: "og:video:width",
+            content: "1920",
+          },
+          {
+            property: "og:video:height",
+            content: "1080",
+          },
+          {
+            property: "twitter:card",
+            content: "summary_large_image",
+          },
+          {
+            property: "twitter:image",
+            content: `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`,
+          },
+        ]
+      : [
+          {
+            property: "twitter:card",
+            content: "summary",
+          },
+        ]),
     {
-      name: "twitter:card",
-      content: "summary",
-    },
-    {
-      name: "twitter:title",
+      property: "twitter:title",
       content: data.episode.title,
     },
     {
-      name: "twitter:description",
+      property: "twitter:description",
       content: description,
     },
   ];
